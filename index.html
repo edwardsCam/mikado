@@ -1,0 +1,62 @@
+<!doctype html>
+
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Mikado</title>
+  <link rel='stylesheet' href='style/main.css'  />
+</head>
+
+<body>
+
+  <!-- Entire Panel -->
+  <div class='container'>
+
+    <!-- Image Panel -->
+    <div class='image-panel'>
+      <img src='img/assassin.png' />
+    </div>
+
+    <!-- Canvases -->
+    <div class='canvas-panel'>
+
+      <!-- Best Canvas -->
+      <div class='single-canvas-container'>
+        <canvas
+          id='canvas_best'
+          width='300'
+          height='300'
+        >
+        </canvas>
+        <div id='best_desc_similarity'></div>
+      </div>
+
+      <!-- Scratch Canvas -->
+      <div class='single-canvas-container'>
+        <canvas
+          id='canvas_scratch'
+          width='300'
+          height='300'
+        >
+        </canvas>
+        <div id='scratch_desc_similarity'></div>
+        <div id='scratch_desc_phasenum'></div>
+        <div id='scratch_desc_phase_percentage'></div>
+        <div id='scratch_desc_temp'></div>
+      </div>
+
+      <div class='single-canvas-container'>
+        <div id='desc_generations'></div>
+        <div id='desc_improvements'></div>
+        <button id='btn_pause'>Pause</button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src='dist/bundle.js'></script>
+</body>
+
+</html>

@@ -1,0 +1,13 @@
+.canvas-panel {
+  vertical-align: top;
+}
+
+.single-canvas-container {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.single-canvas-container > canvas {
+  border: 1px solid black;
+  padding: 5px;
+}
