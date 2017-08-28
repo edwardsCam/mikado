@@ -1,19 +1,19 @@
 import './utils/mathExtensions.js';
 import { getSimilarityAsPercentage } from './utils/similarity.js';
-import { mutate, phaseFoundNewBest } from './utils/mutate.js';
 import { workingCanvas } from './utils/toImg.js';
-import { randomState } from './utils/randomState.js';
-import { drawAll } from './utils/draw.js';
+import { draw } from './utils/draw.js';
 import {
   updateGenerationsDisplay,
   updateImprovementsDisplay,
   updateBestSimilarityDisplay,
   updateScratchSimilarityDisplay,
 } from './utils/display.js';
+import { mutate, phaseFoundNewBest } from './mutation-patterns/lines/mutation.js';
+import randomState from './mutation-patterns/lines/randomState.js';
 import { IMG_PATH } from './constants.js';
 
-const drawScratch = () => drawAll(scratchState, 0);
-const drawBest = () => drawAll(bestState, 1);
+const drawScratch = () => draw(scratchState, 0);
+const drawBest = () => draw(bestState, 1);
 
 let scratchState = randomState();
 let bestState = scratchState;

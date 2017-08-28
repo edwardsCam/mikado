@@ -1,6 +1,6 @@
 import { scratch, best } from '../utils/canvas.js';
 
-function drawAll(lines, contextId) {
+function draw(lines, contextId) {
   const pane = contextId === 0 ? scratch : best;
   const ctx = pane.getContext();
   const width = pane.getWidth();
@@ -8,10 +8,10 @@ function drawAll(lines, contextId) {
   ctx.clearRect(0, 0, width, height);
   ctx.beginPath();
   lines.forEach(l => {
-    ctx.moveTo(l.x1, l.y1);
-    ctx.lineTo(l.x2, l.y2);
+    ctx.moveTo(l[0].x, l[0].y);
+    ctx.lineTo(l[1].x, l[1].y);
     ctx.stroke();
   });
 }
 
-export { drawAll };
+export { draw };
