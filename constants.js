@@ -1,9 +1,9 @@
-const N = 50;
+const N = 15;
 const MIN_TEMP = 1;
-const MAX_TEMP = 40;
-const MAX_TRIES = 50;
+const MAX_TEMP = 50;
+const MAX_TRIES = 30;
 
-const IMG_PATH = 'img/assassin.png';
+const IMG_PATH = 'img/ie.png';
 
 export {
   N,

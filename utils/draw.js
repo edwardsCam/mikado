@@ -19,10 +19,26 @@ function drawLines(lines, contextId) {
   });
 }
 
+function drawTriangles(triangles, contextId) {
+  const ctx = reset(contextId);
+  triangles.forEach(t => {
+    ctx.moveTo(t[0].x, t[0].y);
+    ctx.lineTo(t[1].x, t[1].y);
+    ctx.lineTo(t[2].x, t[2].y);
+    ctx.lineTo(t[0].x, t[0].y);
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+    ctx.closePath();
+    ctx.fill();
+  });
+}
+
 function draw(state, contextId, mode) {
   switch (mode) {
     case 'lines':
       drawLines(state, contextId);
+      break;
+    case 'triangles':
+      drawTriangles(state, contextId);
       break;
   }
 }

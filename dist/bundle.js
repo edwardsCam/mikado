@@ -617,12 +617,12 @@ module.exports = cloneArrayBuffer;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var N = 50;
+var N = 15;
 var MIN_TEMP = 1;
-var MAX_TEMP = 40;
-var MAX_TRIES = 50;
+var MAX_TEMP = 50;
+var MAX_TRIES = 30;
 
-var IMG_PATH = 'img/assassin.png';
+var IMG_PATH = 'img/ie.png';
 
 exports.N = N;
 exports.MIN_TEMP = MIN_TEMP;
@@ -1313,14 +1313,14 @@ var _point2 = _interopRequireDefault(_point);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function line() {
-  if (arguments.length === 4) {
-    return [(0, _point2.default)(arguments[0], arguments[1]), (0, _point2.default)(arguments[2], arguments[3])];
+function triangle() {
+  if (arguments.length === 6) {
+    return [(0, _point2.default)(arguments[0], arguments[1]), (0, _point2.default)(arguments[2], arguments[3]), (0, _point2.default)(arguments[4], arguments[5])];
   }
-  return [arguments[0], arguments[1]];
+  return [arguments[0], arguments[1], arguments[2]];
 }
 
-exports.default = line;
+exports.default = triangle;
 
 /***/ }),
 /* 41 */
@@ -1350,10 +1350,10 @@ var _constants = __webpack_require__(19);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var drawScratch = function drawScratch() {
-  return (0, _draw.draw)(scratchState, 0);
+  return (0, _draw.draw)(scratchState, 0, 'triangles');
 };
 var drawBest = function drawBest() {
-  return (0, _draw.draw)(bestState, 1);
+  return (0, _draw.draw)(bestState, 1, 'triangles');
 };
 
 var scratchState = (0, _randomState2.default)();
@@ -2285,18 +2285,47 @@ exports.draw = undefined;
 
 var _canvas = __webpack_require__(10);
 
-function draw(lines, contextId) {
+function reset(contextId) {
   var pane = contextId === 0 ? _canvas.scratch : _canvas.best;
-  var ctx = pane.getContext();
   var width = pane.getWidth();
   var height = pane.getHeight();
+  var ctx = pane.getContext();
   ctx.clearRect(0, 0, width, height);
   ctx.beginPath();
+  return ctx;
+}
+
+function drawLines(lines, contextId) {
+  var ctx = reset(contextId);
   lines.forEach(function (l) {
     ctx.moveTo(l[0].x, l[0].y);
     ctx.lineTo(l[1].x, l[1].y);
     ctx.stroke();
   });
+}
+
+function drawTriangles(triangles, contextId) {
+  var ctx = reset(contextId);
+  triangles.forEach(function (t) {
+    ctx.moveTo(t[0].x, t[0].y);
+    ctx.lineTo(t[1].x, t[1].y);
+    ctx.lineTo(t[2].x, t[2].y);
+    ctx.lineTo(t[0].x, t[0].y);
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+    ctx.closePath();
+    ctx.fill();
+  });
+}
+
+function draw(state, contextId, mode) {
+  switch (mode) {
+    case 'lines':
+      drawLines(state, contextId);
+      break;
+    case 'triangles':
+      drawTriangles(state, contextId);
+      break;
+  }
 }
 
 exports.draw = draw;
@@ -2317,9 +2346,9 @@ var _clone = __webpack_require__(48);
 
 var _clone2 = _interopRequireDefault(_clone);
 
-var _line = __webpack_require__(40);
+var _triangle = __webpack_require__(40);
 
-var _line2 = _interopRequireDefault(_line);
+var _triangle2 = _interopRequireDefault(_triangle);
 
 var _phase = __webpack_require__(125);
 
@@ -2329,23 +2358,23 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function mutate(state) {
   _phase2.default.step();
-  var newLines = (0, _clone2.default)(state);
-  newLines[_phase2.default.id] = mutateLine(newLines[_phase2.default.id]);
-  return newLines;
+  var newState = (0, _clone2.default)(state);
+  newState[_phase2.default.id] = mutateTriangle(newState[_phase2.default.id]);
+  return newState;
 }
 
-function mutateLine(l) {
+function mutateTriangle(t) {
   if (_phase2.default.isFinished) {
     _phase2.default.beginNew();
-    return _phase2.default.bestLine;
+    return _phase2.default.bestState;
   } else {
-    _phase2.default.currLine = l;
-    return (0, _line2.default)(l[0].x + Math.randomInRange(-_phase2.default.temp, _phase2.default.temp), l[0].y + Math.randomInRange(-_phase2.default.temp, _phase2.default.temp), l[1].x + Math.randomInRange(-_phase2.default.temp, _phase2.default.temp), l[1].y + Math.randomInRange(-_phase2.default.temp, _phase2.default.temp));
+    _phase2.default.setCurr(t);
+    return (0, _triangle2.default)(t[0].x + Math.randomInRange(-_phase2.default.temp, _phase2.default.temp), t[0].y + Math.randomInRange(-_phase2.default.temp, _phase2.default.temp), t[1].x + Math.randomInRange(-_phase2.default.temp, _phase2.default.temp), t[1].y + Math.randomInRange(-_phase2.default.temp, _phase2.default.temp), t[2].x + Math.randomInRange(-_phase2.default.temp, _phase2.default.temp), t[2].y + Math.randomInRange(-_phase2.default.temp, _phase2.default.temp));
   }
 }
 
 function phaseFoundNewBest() {
-  _phase2.default.bestLine = _phase2.default.currLine;
+  _phase2.default.setBest(_phase2.default.currState);
 }
 
 exports.mutate = mutate;
@@ -4659,8 +4688,8 @@ var _constants = __webpack_require__(19);
 var phase = {
   id: -1,
   tries: -1,
-  currLine: null,
-  bestLine: null,
+  currState: null,
+  bestState: null,
   beginNew: function beginNew() {
     this.tries = -1;
     this.id++;
@@ -4676,6 +4705,12 @@ var phase = {
     this.temp = Math.interpolate([0, _constants.MAX_TRIES], [_constants.MIN_TEMP, _constants.MAX_TEMP], this.tries).toFixed(2);
     (0, _display.updateScratchPhasePercentageDisplay)(this.tries, _constants.MAX_TRIES);
     (0, _display.updateScratchTemperatureDisplay)(this.temp);
+  },
+  setCurr: function setCurr(obj) {
+    this.currState = obj;
+  },
+  setBest: function setBest(obj) {
+    this.bestState = obj;
   }
 };
 
@@ -4700,9 +4735,9 @@ var _times2 = _interopRequireDefault(_times);
 
 var _canvas = __webpack_require__(10);
 
-var _line = __webpack_require__(40);
+var _triangle = __webpack_require__(40);
 
-var _line2 = _interopRequireDefault(_line);
+var _triangle2 = _interopRequireDefault(_triangle);
 
 var _constants = __webpack_require__(19);
 
@@ -4712,11 +4747,11 @@ var width = _canvas.scratch.getWidth();
 var height = _canvas.scratch.getHeight();
 
 var randomState = function randomState() {
-  return (0, _times2.default)(_constants.N, randomLine);
+  return (0, _times2.default)(_constants.N, randomTriangle);
 };
 
-var randomLine = function randomLine() {
-  return (0, _line2.default)(Math.randomInRange(0, width), Math.randomInRange(0, height), Math.randomInRange(0, width), Math.randomInRange(0, height));
+var randomTriangle = function randomTriangle() {
+  return (0, _triangle2.default)(Math.randomInRange(0, width), Math.randomInRange(0, height), Math.randomInRange(0, width), Math.randomInRange(0, height), Math.randomInRange(0, width), Math.randomInRange(0, height));
 };
 
 exports.default = randomState;
