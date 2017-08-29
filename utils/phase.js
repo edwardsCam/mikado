@@ -8,8 +8,8 @@ import { N, MIN_TEMP, MAX_TEMP, MAX_TRIES } from '../constants.js';
 const phase = {
   id: -1,
   tries: -1,
-  currLine: null,
-  bestLine: null,
+  currState: null,
+  bestState: null,
   beginNew: function() {
     this.tries = -1;
     this.id++;
@@ -29,7 +29,13 @@ const phase = {
     ).toFixed(2);
     updateScratchPhasePercentageDisplay(this.tries, MAX_TRIES);
     updateScratchTemperatureDisplay(this.temp);
-  }
+  },
+  setCurr: function(obj) {
+    this.currState = obj;
+  },
+  setBest: function(obj) {
+    this.bestState = obj;
+  },
 };
 
 phase.beginNew();

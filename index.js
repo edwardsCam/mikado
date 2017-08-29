@@ -12,8 +12,8 @@ import { mutate, phaseFoundNewBest } from './mutation-patterns/lines/mutation.js
 import randomState from './mutation-patterns/lines/randomState.js';
 import { IMG_PATH } from './constants.js';
 
-const drawScratch = () => draw(scratchState, 0);
-const drawBest = () => draw(bestState, 1);
+const drawScratch = () => draw(scratchState, 0, 'lines');
+const drawBest = () => draw(bestState, 1, 'lines');
 
 let scratchState = randomState();
 let bestState = scratchState;

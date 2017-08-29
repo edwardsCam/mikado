@@ -12,9 +12,9 @@ function mutate(state) {
 function mutateLine(l) {
   if (phase.isFinished) {
     phase.beginNew();
-    return phase.bestLine;
+    return phase.bestState;
   } else {
-    phase.currLine = l;
+    phase.setCurr(l);
     return line(
       l[0].x + Math.randomInRange(-phase.temp, phase.temp),
       l[0].y + Math.randomInRange(-phase.temp, phase.temp),
@@ -25,7 +25,7 @@ function mutateLine(l) {
 }
 
 function phaseFoundNewBest() {
-  phase.bestLine = phase.currLine;
+  phase.setBest(phase.currState);
 }
 
 export {
