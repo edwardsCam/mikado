@@ -1,7 +1,7 @@
 import times from 'lodash/times';
 import { scratch } from '../../utils/canvas.js';
-import triangle from '../../utils/triangle.js';
 import { N } from '../../constants.js';
+import triangle from '../../shapes/triangle.js';
 
 const width = scratch.getWidth();
 const height = scratch.getHeight();

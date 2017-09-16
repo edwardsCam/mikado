@@ -1,7 +1,7 @@
 import times from 'lodash/times';
 import { scratch } from '../../utils/canvas.js';
-import line from '../../utils/line.js';
 import { N } from '../../constants.js';
+import line from '../../shapes/line.js';
 
 const width = scratch.getWidth();
 const height = scratch.getHeight();

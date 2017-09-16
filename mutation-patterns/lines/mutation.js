@@ -1,6 +1,6 @@
 import clone from 'lodash/clone';
-import line from '../../utils/line.js';
 import phase from '../../utils/phase.js';
+import line from '../../shapes/line.js';
 
 function mutate(state) {
   phase.step();

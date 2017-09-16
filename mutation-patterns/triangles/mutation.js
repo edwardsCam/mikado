@@ -1,6 +1,6 @@
 import clone from 'lodash/clone';
-import triangle from '../../utils/triangle.js';
 import phase from '../../utils/phase.js';
+import triangle from '../../shapes/triangle.js';
 
 function mutate(state) {
   phase.step();
