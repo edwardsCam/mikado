@@ -8,12 +8,12 @@ import {
   updateBestSimilarityDisplay,
   updateScratchSimilarityDisplay,
 } from './utils/display.js';
-import { mutate, phaseFoundNewBest } from './mutation-patterns/triangles/mutation.js';
-import randomState from './mutation-patterns/triangles/randomState.js';
+import { mutate, phaseFoundNewBest } from './mutation-patterns/lines/mutation.js';
+import randomState from './mutation-patterns/lines/randomState.js';
 import { IMG_PATH } from './constants.js';
 
-const drawScratch = () => draw(scratchState, 0, 'triangles');
-const drawBest = () => draw(bestState, 1, 'triangles');
+const drawScratch = () => draw(scratchState, 0, 'lines');
+const drawBest = () => draw(bestState, 1, 'lines');
 
 let scratchState = randomState();
 let bestState = scratchState;

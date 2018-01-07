@@ -617,7 +617,7 @@ module.exports = cloneArrayBuffer;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var N = 15;
+var N = 40;
 var MIN_TEMP = 1;
 var MAX_TEMP = 50;
 var MAX_TRIES = 30;
@@ -1307,20 +1307,20 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _point = __webpack_require__(124);
+var _point = __webpack_require__(125);
 
 var _point2 = _interopRequireDefault(_point);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function triangle() {
-  if (arguments.length === 6) {
-    return [(0, _point2.default)(arguments[0], arguments[1]), (0, _point2.default)(arguments[2], arguments[3]), (0, _point2.default)(arguments[4], arguments[5])];
+function line() {
+  if (arguments.length === 4) {
+    return [(0, _point2.default)(arguments[0], arguments[1]), (0, _point2.default)(arguments[2], arguments[3])];
   }
-  return [arguments[0], arguments[1], arguments[2]];
+  return [arguments[0], arguments[1]];
 }
 
-exports.default = triangle;
+exports.default = line;
 
 /***/ }),
 /* 41 */
@@ -1350,10 +1350,10 @@ var _constants = __webpack_require__(19);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var drawScratch = function drawScratch() {
-  return (0, _draw.draw)(scratchState, 0, 'triangles');
+  return (0, _draw.draw)(scratchState, 0, 'lines');
 };
 var drawBest = function drawBest() {
-  return (0, _draw.draw)(bestState, 1, 'triangles');
+  return (0, _draw.draw)(bestState, 1, 'lines');
 };
 
 var scratchState = (0, _randomState2.default)();
@@ -2346,30 +2346,30 @@ var _clone = __webpack_require__(48);
 
 var _clone2 = _interopRequireDefault(_clone);
 
-var _triangle = __webpack_require__(40);
-
-var _triangle2 = _interopRequireDefault(_triangle);
-
-var _phase = __webpack_require__(125);
+var _phase = __webpack_require__(124);
 
 var _phase2 = _interopRequireDefault(_phase);
+
+var _line = __webpack_require__(40);
+
+var _line2 = _interopRequireDefault(_line);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function mutate(state) {
   _phase2.default.step();
-  var newState = (0, _clone2.default)(state);
-  newState[_phase2.default.id] = mutateTriangle(newState[_phase2.default.id]);
-  return newState;
+  var newLines = (0, _clone2.default)(state);
+  newLines[_phase2.default.id] = mutateLine(newLines[_phase2.default.id]);
+  return newLines;
 }
 
-function mutateTriangle(t) {
+function mutateLine(l) {
   if (_phase2.default.isFinished) {
     _phase2.default.beginNew();
     return _phase2.default.bestState;
   } else {
-    _phase2.default.setCurr(t);
-    return (0, _triangle2.default)(t[0].x + Math.randomInRange(-_phase2.default.temp, _phase2.default.temp), t[0].y + Math.randomInRange(-_phase2.default.temp, _phase2.default.temp), t[1].x + Math.randomInRange(-_phase2.default.temp, _phase2.default.temp), t[1].y + Math.randomInRange(-_phase2.default.temp, _phase2.default.temp), t[2].x + Math.randomInRange(-_phase2.default.temp, _phase2.default.temp), t[2].y + Math.randomInRange(-_phase2.default.temp, _phase2.default.temp));
+    _phase2.default.setCurr(l);
+    return (0, _line2.default)(l[0].x + Math.randomInRange(-_phase2.default.temp, _phase2.default.temp), l[0].y + Math.randomInRange(-_phase2.default.temp, _phase2.default.temp), l[1].x + Math.randomInRange(-_phase2.default.temp, _phase2.default.temp), l[1].y + Math.randomInRange(-_phase2.default.temp, _phase2.default.temp));
   }
 }
 
@@ -4664,22 +4664,6 @@ module.exports = baseCreate;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var point = function point(x, y) {
-  return { x: x, y: y };
-};
-
-exports.default = point;
-
-/***/ }),
-/* 125 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
 
 var _display = __webpack_require__(20);
 
@@ -4719,6 +4703,22 @@ phase.beginNew();
 exports.default = phase;
 
 /***/ }),
+/* 125 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var point = function point(x, y) {
+  return { x: x, y: y };
+};
+
+exports.default = point;
+
+/***/ }),
 /* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4735,11 +4735,11 @@ var _times2 = _interopRequireDefault(_times);
 
 var _canvas = __webpack_require__(10);
 
-var _triangle = __webpack_require__(40);
-
-var _triangle2 = _interopRequireDefault(_triangle);
-
 var _constants = __webpack_require__(19);
+
+var _line = __webpack_require__(40);
+
+var _line2 = _interopRequireDefault(_line);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4747,11 +4747,11 @@ var width = _canvas.scratch.getWidth();
 var height = _canvas.scratch.getHeight();
 
 var randomState = function randomState() {
-  return (0, _times2.default)(_constants.N, randomTriangle);
+  return (0, _times2.default)(_constants.N, randomLine);
 };
 
-var randomTriangle = function randomTriangle() {
-  return (0, _triangle2.default)(Math.randomInRange(0, width), Math.randomInRange(0, height), Math.randomInRange(0, width), Math.randomInRange(0, height), Math.randomInRange(0, width), Math.randomInRange(0, height));
+var randomLine = function randomLine() {
+  return (0, _line2.default)(Math.randomInRange(0, width), Math.randomInRange(0, height), Math.randomInRange(0, width), Math.randomInRange(0, height));
 };
 
 exports.default = randomState;

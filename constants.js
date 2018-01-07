@@ -1,4 +1,4 @@
-const N = 15;
+const N = 40;
 const MIN_TEMP = 1;
 const MAX_TEMP = 50;
 const MAX_TRIES = 30;
