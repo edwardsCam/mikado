@@ -6,5 +6,5 @@ Starts with a random jumble of lines, and incrementally rearranges them to be as
 
 ### Usage
 1. `npm i`
-2. `npm run serve`
+2. `npm run start`
 3. Open up `http://localhost:8080/`
